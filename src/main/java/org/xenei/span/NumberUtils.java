@@ -17,6 +17,10 @@
  */
 package org.xenei.span;
 
+/**
+ * A utility classes to handle limit checking.
+ *
+ */
 public class NumberUtils {
 
 	/**
