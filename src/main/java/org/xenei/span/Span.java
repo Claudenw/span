@@ -1,5 +1,20 @@
-
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.xenei.span;
 
 import java.util.Arrays;
@@ -8,53 +23,9 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Describes a span of data. Starting point and ending point.
+ * Describes a span of data. Starting offset and ending index, or the starting offset and the length.
  */
 public interface Span {
-
-	/**
-	 * Starting position.
-	 *
-	 * @return offset position
-	 */
-	long getOffset();
-
-	/**
-	 * Length of the span.
-	 *
-	 * @return the length of the span.
-	 */
-	long getLength();
-
-	/**
-	 * Ending position of span.
-	 *
-	 * @return end position
-	 */
-	long getEnd();
-
-	/**
-	 * Return true if the spans share any positions.
-	 *
-	 * @param other The other span
-	 * @return true if overlap
-	 */
-	public default boolean overlaps(final Span other) {
-		if ((getEnd() < other.getOffset()) || (getOffset() > other.getEnd())) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Return true if this span contains the position.
-	 *
-	 * @param pos the position to check for.
-	 * @return true if start &lt;= pos &lt;= end
-	 */
-	public default boolean contains(final long pos) {
-		return (getOffset() <= pos) && (getEnd() >= pos);
-	}
 
 	/**
 	 * Construct a span from a starting position and an endpoint.
@@ -147,7 +118,56 @@ public interface Span {
 
         return spanList;
     }
-    
+
+	
+	/**
+	 * Starting position.
+	 *
+	 * @return offset position
+	 */
+	long getOffset();
+
+	/**
+	 * Length of the span.
+	 *
+	 * @return the length of the span.
+	 */
+	long getLength();
+
+	/**
+	 * Ending position of span.
+	 *
+	 * @return end position
+	 */
+	long getEnd();
+
+	/**
+	 * Return true if the spans share any positions.
+	 *
+	 * @param other The other span
+	 * @return true if overlap
+	 */
+	public default boolean overlaps(final Span other) {
+		if ((getEnd() < other.getOffset()) || (getOffset() > other.getEnd())) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Return true if this span contains the position.
+	 *
+	 * @param pos the position to check for.
+	 * @return true if start &lt;= pos &lt;= end
+	 */
+	public default boolean contains(final long pos) {
+		return (getOffset() <= pos) && (getEnd() >= pos);
+	}
+
+	/**
+	 * An implementation of Span.     
+	 *
+	 */
 	public class SpanImpl implements Span {
 
 	    private final long offset;
