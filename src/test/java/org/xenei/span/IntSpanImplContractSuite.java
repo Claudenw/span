@@ -22,25 +22,25 @@ import org.xenei.junit.contract.Contract;
 import org.xenei.junit.contract.ContractImpl;
 import org.xenei.junit.contract.ContractSuite;
 import org.xenei.junit.contract.IProducer;
-import org.xenei.span.Span.SpanImpl;
+import org.xenei.span.IntSpan.Impl;
 
 @RunWith(ContractSuite.class)
-@ContractImpl(SpanImpl.class)
-public class SpanImplContractSuite {
+@ContractImpl(Impl.class)
+public class IntSpanImplContractSuite {
 
-    @Contract.Inject
-    public IProducer<SpanImpl> getProducer() {
-        return new IProducer<SpanImpl>() {
+	@Contract.Inject
+	public IProducer<Impl> getProducer() {
+		return new IProducer<Impl>() {
 
-            @Override
-            public SpanImpl newInstance() {
-                return new SpanImpl( 0, 10 );
-            }
+			@Override
+			public Impl newInstance() {
+				return new Impl(0, 10);
+			}
 
-            @Override
-            public void cleanUp() {
-                // do nothing
-            }
-        };
-    }
+			@Override
+			public void cleanUp() {
+				// do nothing
+			}
+		};
+	}
 }
