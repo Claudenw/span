@@ -23,6 +23,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
+import org.xenei.span.LongSpan.Impl;
+
 /**
  * Describes a span of data. Starting offset and ending index, or the starting
  * offset and the length.
@@ -32,6 +34,7 @@ public interface IntSpan extends Span {
 	public static final ComparatorByLength COMPARATOR_BY_LENGTH = new ComparatorByLength();
 	public static final ComparatorByOffset COMPARATOR_BY_OFFSET = new ComparatorByOffset();
 	public static final int BYTES = Integer.BYTES * 2;
+	public static final IntSpan EMPTY = new Impl( 0, 0 );
 
 	/**
 	 * Construct a span from a starting position and an endpoint.

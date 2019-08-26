@@ -32,6 +32,8 @@ public interface LongSpan extends Span {
 	public static final ComparatorByLength COMPARATOR_BY_LENGTH = new ComparatorByLength();
 	public static final ComparatorByOffset COMPARATOR_BY_OFFSET = new ComparatorByOffset();
 	public static final int BYTES = Long.BYTES * 2;
+	
+	public static final LongSpan EMPTY = new Impl( 0, 0 );
 
 	/**
 	 * Construct a span from a starting position and an endpoint.
