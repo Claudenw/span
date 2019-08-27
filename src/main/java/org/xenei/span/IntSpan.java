@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-import org.xenei.span.LongSpan.Impl;
 
 /**
  * Describes a span of data. Starting offset and ending index, or the starting
