@@ -30,28 +30,37 @@ import java.util.function.Function;
  */
 public interface IntSpan extends Span {
 
+    /**
+     * The Comparator to compare IntSpans by length.
+     */
 	public static final ComparatorByLength COMPARATOR_BY_LENGTH = new ComparatorByLength();
+    /**
+     * The Comparator to compare IntSpans by offset.
+     */
 	public static final ComparatorByOffset COMPARATOR_BY_OFFSET = new ComparatorByOffset();
-	public static final int BYTES = Integer.BYTES * 2;
+
+	/**
+	 * An empty IntSpan.
+	 */
 	public static final IntSpan EMPTY = new Impl( 0, 0 );
 
 	/**
-	 * Construct a span from a starting position and an endpoint.
+	 * Constructs an IntSpan from a starting position and an endpoint.
 	 *
 	 * @param offset The offset position.
 	 * @param end    The endpoint
-	 * @return the new Span.
+	 * @return the new IntSpan.
 	 */
 	static IntSpan fromEnd(final int offset, final int end) {
 		return new Impl(offset, (end - offset) + 1);
 	}
 
 	/**
-	 * Construct a span from a starting position and a length.
+	 * Constructs an IntSpan from a starting position and a length.
 	 *
 	 * @param offset The offset position.
 	 * @param length The length of the span.
-	 * @return the new Span.
+	 * @return the new IntSpan.
 	 */
 	static IntSpan fromLength(final int offset, final int length) {
 		return new Impl(offset, length);
@@ -80,7 +89,7 @@ public interface IntSpan extends Span {
 	}
 
 	/**
-	 * create the default string for the span.
+	 * create the default string representation for the span.
 	 *
 	 * @param span The span to get the string for
 	 * @return The printable string
@@ -97,7 +106,7 @@ public interface IntSpan extends Span {
 	 * Other than ordering the spans no guarantee for order of equivalent nodes is
 	 * provided.
 	 * </p>
-	 * 
+	 *
 	 * @param reverse      should we reverse the order
 	 * @param function     how to sort the list of spans
 	 * @param spanElements elements to sort
@@ -120,21 +129,21 @@ public interface IntSpan extends Span {
 	}
 
 	/**
-	 * Starting position.
+	 * Gets the starting position.
 	 *
 	 * @return offset position
 	 */
 	int getOffset();
 
 	/**
-	 * Length of the span.
+	 * Gets the length of the span.
 	 *
 	 * @return the length of the span.
 	 */
 	int getLength();
 
 	/**
-	 * Ending position of span.
+	 * Gets the ending position of span.
 	 *
 	 * @return end position
 	 */
@@ -164,12 +173,28 @@ public interface IntSpan extends Span {
 	}
 
 	/**
-	 * An implementation of Span.
+	 * Return true if this span contains teh enther other span.
+	 *
+	 * @param oher the other span.
+	 * @return true if this span contains both the offset and the end of the other span.
+	 */
+	public default boolean contains(final IntSpan other) {
+		return contains( other.getOffset() ) & contains( other.getEnd() );
+	}
+
+	/**
+	 * An implementation of and IntSpan.
 	 *
 	 */
 	public class Impl implements IntSpan {
 
+	    /**
+	     * The offset for the span
+	     */
 		private final int offset;
+		/**
+		 * The length of the span
+		 */
 		private final int length;
 
 		/**
@@ -211,14 +236,9 @@ public interface IntSpan extends Span {
 	}
 
 	/**
-	 * <p>
 	 * Comparator to compare Spans by length.
-	 * </p>
-	 *
 	 */
-	public static class ComparatorByLength implements Comparator<IntSpan>, Serializable {
-
-		private static final long serialVersionUID = 3996146348610573570L;
+	public static class ComparatorByLength implements Comparator<IntSpan> {
 
 		// Default Comparator based on length
 		public static final Comparator<IntSpan> SPAN_COMPARATOR_BY_LENGTH_DESC = Comparator
@@ -230,7 +250,7 @@ public interface IntSpan extends Span {
 		}
 
 		/**
-		 * Retrieves the biggest Span of the list. On equality return the last of the
+		 * Retrieves the longest Span of the list. On equality return the last of the
 		 * equal spans
 		 *
 		 * @param spans list of spans
@@ -266,10 +286,7 @@ public interface IntSpan extends Span {
 	}
 
 	/**
-	 * <p>
 	 * Comparator to compare Spans by offset.
-	 * </p>
-	 *
 	 */
 	public class ComparatorByOffset implements Comparator<IntSpan>, Serializable {
 
@@ -285,7 +302,7 @@ public interface IntSpan extends Span {
 		}
 
 		/**
-		 * Retrieves the biggest Span of the list. On equality return the last of the
+		 * Retrieves the span with the highest offset. On equality return the last of the
 		 * equal spans
 		 *
 		 * @param spans list of spans
@@ -302,7 +319,7 @@ public interface IntSpan extends Span {
 		}
 
 		/**
-		 * Retrieves the shortest Span of the list. On equality return the first of the
+		 * Retrieves the Span with the lowest offset. On equality return the first of the
 		 * equal spans.
 		 *
 		 * @param spans list of spans

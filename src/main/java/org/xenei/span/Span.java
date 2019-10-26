@@ -2,43 +2,59 @@ package org.xenei.span;
 
 import java.nio.ByteBuffer;
 
+/**
+ * An interface tha defines a span.
+ *
+ */
 public interface Span {
 
-	public static class Util {
-		public static LongSpan asLongSpan(Span span) {
-			if (span instanceof LongSpan) {
-				return (LongSpan) span;
-			} else if (span instanceof IntSpan) {
-				IntSpan sp = (IntSpan) span;
-				return LongSpan.fromLength(sp.getOffset(), sp.getLength());
-			}
-			throw new IllegalStateException("Unknown span type: " + span.getClass().getName());
+    /**
+     * Converts the span to a LongSpan.
+     * @return A LongSpan representation of the span.
+     */
+	default LongSpan asLongSpan() {
+		if (this instanceof LongSpan) {
+			return (LongSpan) this;
+		} else if (this instanceof IntSpan) {
+			IntSpan sp = (IntSpan) this;
+			return LongSpan.fromLength(sp.getOffset(), sp.getLength());
 		}
-
-		public static IntSpan asIntSpan(Span span) {
-			if (span instanceof LongSpan) {
-				LongSpan sp = (LongSpan) span;
-				return IntSpan.fromLength(NumberUtils.checkIntLimit("offset", sp.getOffset()),
-						NumberUtils.checkIntLimit("length", sp.getLength()));
-			} else if (span instanceof IntSpan) {
-				return (IntSpan) span;
-			}
-			throw new IllegalStateException("Unknown span type: " + span.getClass().getName());
-		}
-
-		public static ByteBuffer asByteBuffer(Span span) {
-			if (span instanceof LongSpan) {
-				LongSpan sp = (LongSpan) span;
-				ByteBuffer bb = ByteBuffer.wrap(new byte[LongSpan.BYTES]);
-				bb.asLongBuffer().put(sp.getOffset()).put(sp.getLength());
-				return bb;
-			} else if (span instanceof IntSpan) {
-				IntSpan sp = (IntSpan) span;
-				ByteBuffer bb = ByteBuffer.wrap(new byte[IntSpan.BYTES]);
-				bb.asIntBuffer().put(sp.getOffset()).put(sp.getLength());
-				return bb;
-			}
-			throw new IllegalStateException("Unknown span type: " + span.getClass().getName());
-		}
+		throw new IllegalStateException("Unknown span type: " + this.getClass().getName());
 	}
+
+	/**
+	 * Converts the span to an IntSpan.
+	 * @return an IntSpan representation of the span.
+	 * @throws IllegalArgumentException if any of the values exceed Integer.MAX_VALUE
+	 */
+	default IntSpan asIntSpan() {
+		if (this instanceof LongSpan) {
+			LongSpan sp = (LongSpan) this;
+			return IntSpan.fromLength(NumberUtils.checkIntLimit("offset", sp.getOffset()),
+					NumberUtils.checkIntLimit("length", sp.getLength()));
+		} else if (this instanceof IntSpan) {
+			return (IntSpan) this;
+		}
+		throw new IllegalStateException("Unknown span type: " + this.getClass().getName());
+	}
+
+	/**
+	 * Converts the span values into a byte buffer.
+	 * @return
+	 */
+	default ByteBuffer asByteBuffer() {
+		if (this instanceof LongSpan) {
+			LongSpan sp = (LongSpan) this;
+			ByteBuffer bb = ByteBuffer.wrap(new byte[Long.BYTES*2]);
+			bb.asLongBuffer().put(sp.getOffset()).put(sp.getLength());
+			return bb;
+		} else if (this instanceof IntSpan) {
+			IntSpan sp = (IntSpan) this;
+			ByteBuffer bb = ByteBuffer.wrap(new byte[Integer.BYTES*2]);
+			bb.asIntBuffer().put(sp.getOffset()).put(sp.getLength());
+			return bb;
+		}
+		throw new IllegalStateException("Unknown span type: " + this.getClass().getName());
+	}
+
 }

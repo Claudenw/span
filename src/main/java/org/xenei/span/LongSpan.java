@@ -24,15 +24,23 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Describes a span of data. Starting offset and ending index, or the starting
+ * Describes a span of data unsing long values for the starting offset and ending index, or the starting
  * offset and the length.
  */
 public interface LongSpan extends Span {
 
+    /**
+     * The comparator by length.
+     */
 	public static final ComparatorByLength COMPARATOR_BY_LENGTH = new ComparatorByLength();
+	/**
+	 * The comparator by offset.
+	 */
 	public static final ComparatorByOffset COMPARATOR_BY_OFFSET = new ComparatorByOffset();
-	public static final int BYTES = Long.BYTES * 2;
-	
+
+	/**
+	 * An empty span.
+	 */
 	public static final LongSpan EMPTY = new Impl( 0, 0 );
 
 	/**
@@ -102,7 +110,7 @@ public interface LongSpan extends Span {
 	 * Other than ordering the spans no guarantee for order of equivalent nodes is
 	 * provided.
 	 * </p>
-	 * 
+	 *
 	 * @param reverse      should we reverse the order
 	 * @param function     how to sort the list of spans
 	 * @param spanElements elements to sort
@@ -169,12 +177,28 @@ public interface LongSpan extends Span {
 	}
 
 	/**
-	 * An implementation of Span.
+	 * Return true if this span contains teh enther other span.
+	 *
+	 * @param oher the other span.
+	 * @return true if this span contains both the offset and the end of the other span.
+	 */
+	public default boolean contains(final IntSpan other) {
+		return contains( other.getOffset() ) & contains( other.getEnd() );
+	}
+
+	/**
+	 * An implementation of LongSpan.
 	 *
 	 */
 	public class Impl implements LongSpan {
 
+	    /**
+	     * The offset for the span.
+	     */
 		private final long offset;
+		/**
+		 * The length of the span.
+		 */
 		private final long length;
 
 		/**
@@ -216,10 +240,7 @@ public interface LongSpan extends Span {
 	}
 
 	/**
-	 * <p>
 	 * Comparator to compare Spans by length.
-	 * </p>
-	 *
 	 */
 	public static class ComparatorByLength implements Comparator<LongSpan>, Serializable {
 
@@ -235,7 +256,7 @@ public interface LongSpan extends Span {
 		}
 
 		/**
-		 * Retrieves the biggest Span of the list. On equality return the last of the
+		 * Retrieves the longest Span of the list. On equality return the last of the
 		 * equal spans
 		 *
 		 * @param spans list of spans
@@ -271,10 +292,7 @@ public interface LongSpan extends Span {
 	}
 
 	/**
-	 * <p>
 	 * Comparator to compare Spans by offset.
-	 * </p>
-	 *
 	 */
 	public class ComparatorByOffset implements Comparator<LongSpan>, Serializable {
 
@@ -290,7 +308,7 @@ public interface LongSpan extends Span {
 		}
 
 		/**
-		 * Retrieves the biggest Span of the list. On equality return the last of the
+		 * Retrieves the Span with the highest offset. On equality return the last of the
 		 * equal spans
 		 *
 		 * @param spans list of spans
@@ -307,7 +325,7 @@ public interface LongSpan extends Span {
 		}
 
 		/**
-		 * Retrieves the shortest Span of the list. On equality return the first of the
+		 * Retrieves the Span with the lowest offset. On equality return the first of the
 		 * equal spans.
 		 *
 		 * @param spans list of spans
