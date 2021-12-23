@@ -19,56 +19,55 @@ package org.xenei.span;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xenei.span.IntSpan;
 import org.xenei.span.IntSpan.ComparatorByLength;
 
 public class IntSpanComparatorByLengthTests {
 
-	@Test
-	public void shortestTest() {
-		final IntSpan one = IntSpan.fromLength(0, 5);
-		final IntSpan two = IntSpan.fromLength(0, 5);
-		final IntSpan three = IntSpan.fromLength(0, 5);
+    @Test
+    public void shortestTest() {
+        final IntSpan one = IntSpan.fromLength(0, 5);
+        final IntSpan two = IntSpan.fromLength(0, 5);
+        final IntSpan three = IntSpan.fromLength(0, 5);
 
-		final IntSpan s = ComparatorByLength.shortest(one, two, three);
-		Assert.assertTrue(one == s);
-	}
+        final IntSpan s = ComparatorByLength.shortest(one, two, three);
+        Assert.assertTrue(one == s);
+    }
 
-	@Test
-	public void longestTest() {
-		final IntSpan one = IntSpan.fromLength(0, 5);
-		final IntSpan two = IntSpan.fromLength(0, 5);
-		final IntSpan three = IntSpan.fromLength(0, 5);
+    @Test
+    public void longestTest() {
+        final IntSpan one = IntSpan.fromLength(0, 5);
+        final IntSpan two = IntSpan.fromLength(0, 5);
+        final IntSpan three = IntSpan.fromLength(0, 5);
 
-		final IntSpan s = ComparatorByLength.longest(one, two, three);
-		Assert.assertTrue(three == s);
-	}
+        final IntSpan s = ComparatorByLength.longest(one, two, three);
+        Assert.assertTrue(three == s);
+    }
 
-	@Test
-	public void compareEqualityTest() {
-		final IntSpan one = IntSpan.fromLength(0, 5);
-		final IntSpan two = IntSpan.fromLength(0, 5);
+    @Test
+    public void compareEqualityTest() {
+        final IntSpan one = IntSpan.fromLength(0, 5);
+        final IntSpan two = IntSpan.fromLength(0, 5);
 
-		Assert.assertEquals(0, IntSpan.COMPARATOR_BY_LENGTH.compare(one, two));
+        Assert.assertEquals(0, IntSpan.COMPARATOR_BY_LENGTH.compare(one, two));
 
-	}
+    }
 
-	@Test
-	public void compareOneGreaterTest() {
-		final IntSpan one = IntSpan.fromLength(0, 10);
-		final IntSpan two = IntSpan.fromLength(0, 5);
+    @Test
+    public void compareOneGreaterTest() {
+        final IntSpan one = IntSpan.fromLength(0, 10);
+        final IntSpan two = IntSpan.fromLength(0, 5);
 
-		Assert.assertEquals(1, IntSpan.COMPARATOR_BY_LENGTH.compare(one, two));
+        Assert.assertEquals(1, IntSpan.COMPARATOR_BY_LENGTH.compare(one, two));
 
-	}
+    }
 
-	@Test
-	public void compareOneLesserTest() {
-		final IntSpan one = IntSpan.fromLength(0, 5);
-		final IntSpan two = IntSpan.fromLength(0, 10);
+    @Test
+    public void compareOneLesserTest() {
+        final IntSpan one = IntSpan.fromLength(0, 5);
+        final IntSpan two = IntSpan.fromLength(0, 10);
 
-		Assert.assertEquals(-1, IntSpan.COMPARATOR_BY_LENGTH.compare(one, two));
+        Assert.assertEquals(-1, IntSpan.COMPARATOR_BY_LENGTH.compare(one, two));
 
-	}
+    }
 
 }

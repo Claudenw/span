@@ -28,19 +28,19 @@ import org.xenei.span.LongSpan.Impl;
 @ContractImpl(Impl.class)
 public class LongSpanImplContractSuite {
 
-	@Contract.Inject
-	public IProducer<Impl> getProducer() {
-		return new IProducer<Impl>() {
+    @Contract.Inject
+    public IProducer<Impl> getProducer() {
+        return new IProducer<Impl>() {
 
-			@Override
-			public Impl newInstance() {
-				return new Impl(0, 10);
-			}
+            @Override
+            public Impl newInstance() {
+                return new Impl(0, 10);
+            }
 
-			@Override
-			public void cleanUp() {
-				// do nothing
-			}
-		};
-	}
+            @Override
+            public void cleanUp() {
+                // do nothing
+            }
+        };
+    }
 }
