@@ -179,7 +179,7 @@ public interface IntSpan extends Span {
 	 * @return true if this span contains both the offset and the end of the other span.
 	 */
 	public default boolean contains(final IntSpan other) {
-		return contains( other.getOffset() ) & contains( other.getEnd() );
+		return contains( other.getOffset() ) && contains( other.getEnd() );
 	}
 
 	/**
